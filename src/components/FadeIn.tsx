@@ -35,10 +35,10 @@ export function FadeIn({ children, delay = 0, className }: FadeInProps) {
   return (
     <div
       ref={ref}
-      style={{ animationDelay: `${delay}ms` }}
+      style={{ transitionDelay: `${delay}ms` }}
       className={cn(
-        "opacity-0 transition-none",
-        visible && "animate-fade-up opacity-100",
+        "h-full transition-all duration-700 ease-out",
+        visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
         className,
       )}
     >
