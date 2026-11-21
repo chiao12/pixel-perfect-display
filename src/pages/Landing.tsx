@@ -1,29 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
 import { BellRing, Plane, XCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import { FadeIn } from "@/components/FadeIn";
 import { FeatureCard } from "@/components/FeatureCard";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Flight Price Notifier — 機票降價通知" },
-      {
-        name: "description",
-        content:
-          "設定航線與目標價，機票降價就通知你。Set a route and a target price — we email you when the fare drops.",
-      },
-      { property: "og:title", content: "Flight Price Notifier — 機票降價通知" },
-      {
-        property: "og:description",
-        content: "Set a route and a target price — we email you when the fare drops.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: Landing,
-});
 
 const features = [
   {
@@ -46,7 +25,7 @@ const features = [
   },
 ];
 
-function Landing() {
+export default function Landing() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-20 border-b border-border/70 bg-background/80 backdrop-blur">

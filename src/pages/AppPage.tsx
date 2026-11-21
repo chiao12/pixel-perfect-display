@@ -1,31 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import type { User } from "@supabase/supabase-js";
 import { Plane } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/_authenticated/app")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — Flight Price Notifier" },
-      {
-        name: "description",
-        content: "Your Flight Price Notifier dashboard for tracked routes and alerts.",
-      },
-      { property: "og:title", content: "Dashboard — Flight Price Notifier" },
-      {
-        property: "og:description",
-        content: "Your Flight Price Notifier dashboard for tracked routes and alerts.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: AppShell,
-});
-
-function AppShell() {
-  const { user } = Route.useRouteContext();
+export default function AppPage({ user }: { user: User | null }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -33,7 +13,7 @@ function AppShell() {
     await queryClient.cancelQueries();
     queryClient.clear();
     await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
+    navigate("/auth", { replace: true });
   }
 
   return (
@@ -56,7 +36,7 @@ function AppShell() {
 
       <main className="mx-auto max-w-5xl px-5 py-16">
         <h1 className="animate-fade-up text-2xl font-semibold tracking-tight sm:text-3xl">
-          Hi {user.email}
+          Hi {user?.email}
         </h1>
         <div className="animate-fade-up mt-8 rounded-2xl border border-border bg-card p-8 shadow-card">
           <p className="text-base text-card-foreground">

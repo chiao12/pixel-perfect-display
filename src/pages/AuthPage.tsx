@@ -1,31 +1,11 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import type { Session } from "@supabase/supabase-js";
 import { Plane } from "lucide-react";
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/auth")({
-  ssr: false,
-  head: () => ({
-    meta: [
-      { title: "Sign in / 登入 — Flight Price Notifier" },
-      {
-        name: "description",
-        content: "Sign in or create an account to watch flight prices from Taipei.",
-      },
-      { property: "og:title", content: "Sign in / 登入 — Flight Price Notifier" },
-      {
-        property: "og:description",
-        content: "Sign in or create an account to watch flight prices from Taipei.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: AuthPage,
-});
-
-function AuthPage() {
+export default function AuthPage({ session }: { session: Session | null | undefined }) {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
@@ -33,11 +13,7 @@ function AuthPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/app", replace: true });
-    });
-  }, [navigate]);
+  if (session) return <Navigate to="/app" replace />;
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -62,7 +38,7 @@ function AuthPage() {
 
     const { data } = await supabase.auth.getSession();
     if (data.session) {
-      navigate({ to: "/app", replace: true });
+      navigate("/app", { replace: true });
     } else {
       setError("Check your email to confirm your account, then sign in.");
     }
