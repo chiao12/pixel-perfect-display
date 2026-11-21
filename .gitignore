@@ -24,6 +24,9 @@ dist-ssr
 # Playwright MCP (screenshots, snapshots, console logs)
 .playwright-mcp/
 
+# Claude Code Windows installer script (not part of the project)
+install.cmd
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
